@@ -15,7 +15,6 @@ import (
 
 var (
 	isCSV bool
-	r     Result
 )
 
 type Result struct {
@@ -44,7 +43,7 @@ type Result struct {
 	threadsExecTimeStddev float64
 }
 
-func (res *Result) toCSVString() string {
+func (r *Result) toCSVString() string {
 	return fmt.Sprintf("%s, %s, %d, %d, %d, %d, %d, %.3f, %d, %.3f, %d, %d, %.3f, %d, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f",
 		r.sysbenchVersion,
 		r.luajitVersion,
@@ -72,7 +71,7 @@ func (res *Result) toCSVString() string {
 	)
 }
 
-func (res *Result) toString() string {
+func (r *Result) toString() string {
 	return fmt.Sprintf("%s %s %d %d %d %d %d %.3f %d %.3f %d %d %.3f %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f",
 		r.sysbenchVersion,
 		r.luajitVersion,
@@ -100,7 +99,7 @@ func (res *Result) toString() string {
 	)
 }
 
-func parseRow(row string) {
+func parseRow(r *Result, row string) {
 	re := regexp.MustCompile("[ \t]+")
 	row = re.ReplaceAllLiteralString(row, " ")
 	if strings.Index(row, "sysbench") != -1 {
@@ -171,7 +170,7 @@ func parseRow(row string) {
 	}
 }
 
-func parseFile(f string) error {
+func parseFile(r *Result, f string) error {
 	fp, err := os.Open(f)
 	if err != nil {
 		fmt.Println("Error: read file!")
@@ -181,7 +180,7 @@ func parseFile(f string) error {
 
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
-		parseRow(scanner.Text())
+		parseRow(r, scanner.Text())
 	}
 
 	if err = scanner.Err(); err != nil {
@@ -191,14 +190,25 @@ func parseFile(f string) error {
 	return nil
 }
 
+func ParseRows(r *Result, f string) {
+	var r Result
+	rows := strings.Split(f, "\n")
+	for i := 0; i < len(rows); i++ {
+		parseRow(&r, rows[i])
+	}
+
+	return r
+}
+
 func main() {
+	var r Result
 	filename := ""
 	flag.BoolVar(&isCSV, "c", false, "csv?")
 	flag.StringVar(&filename, "f", "", "read from file")
 	flag.Parse()
 
 	if filename != "" {
-		err := parseFile(filename)
+		err := parseFile(&r, filename)
 		if err != nil {
 			return
 		}
@@ -213,7 +223,7 @@ func main() {
 		input := string(b)
 		rows := strings.Split(input, "\n")
 		for i := 0; i < len(rows); i++ {
-			parseRow(rows[i])
+			parseRow(&r, rows[i])
 		}
 	}
 

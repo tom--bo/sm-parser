@@ -223,7 +223,6 @@ func main() {
 			parseRow(&r, rows[i])
 		}
 	}
-	fmt.Printf("%+v\n", r)
 
 	if isCSV {
 		fmt.Println(r.toCSVString())

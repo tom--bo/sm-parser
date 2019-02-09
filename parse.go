@@ -18,84 +18,84 @@ var (
 )
 
 type Result struct {
-	sysbenchVersion       string
-	luajitVersion         string
-	threads               int
-	totalRead             int
-	totalWrite            int
-	totalOther            int
-	totalTx               int
-	tps                   float64
-	totalQuery            int
-	qps                   float64
-	ignoredErrors         int
-	reconnects            int
-	totalTime             float64
-	totalEvents           int
-	minLatency            float64
-	avgLatency            float64
-	maxLatency            float64
-	p95thLatency          float64
-	sumLatency            float64
-	threadsEventsAvg      float64
-	threadsEventsStddev   float64
-	threadsExecTimeAvg    float64
-	threadsExecTimeStddev float64
+	SysbenchVersion       string
+	LuajitVersion         string
+	Threads               int
+	TotalRead             int
+	TotalWrite            int
+	TotalOther            int
+	TotalTx               int
+	Tps                   float64
+	TotalQuery            int
+	Qps                   float64
+	IgnoredErrors         int
+	Reconnects            int
+	TotalTime             float64
+	TotalEvents           int
+	MinLatency            float64
+	AvgLatency            float64
+	MaxLatency            float64
+	P95thLatency          float64
+	SumLatency            float64
+	ThreadsEventsAvg      float64
+	ThreadsEventsStddev   float64
+	ThreadsExecTimeAvg    float64
+	ThreadsExecTimeStddev float64
 }
 
 func (r *Result) toCSVString() string {
 	return fmt.Sprintf("%s, %s, %d, %d, %d, %d, %d, %.3f, %d, %.3f, %d, %d, %.3f, %d, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f",
-		r.sysbenchVersion,
-		r.luajitVersion,
-		r.threads,
-		r.totalRead,
-		r.totalWrite,
-		r.totalOther,
-		r.totalTx,
-		r.tps,
-		r.totalQuery,
-		r.qps,
-		r.ignoredErrors,
-		r.reconnects,
-		r.totalTime,
-		r.totalEvents,
-		r.minLatency,
-		r.avgLatency,
-		r.maxLatency,
-		r.p95thLatency,
-		r.sumLatency,
-		r.threadsEventsAvg,
-		r.threadsEventsStddev,
-		r.threadsExecTimeAvg,
-		r.threadsExecTimeStddev,
+		r.SysbenchVersion,
+		r.LuajitVersion,
+		r.Threads,
+		r.TotalRead,
+		r.TotalWrite,
+		r.TotalOther,
+		r.TotalTx,
+		r.Tps,
+		r.TotalQuery,
+		r.Qps,
+		r.IgnoredErrors,
+		r.Reconnects,
+		r.TotalTime,
+		r.TotalEvents,
+		r.MinLatency,
+		r.AvgLatency,
+		r.MaxLatency,
+		r.P95thLatency,
+		r.SumLatency,
+		r.ThreadsEventsAvg,
+		r.ThreadsEventsStddev,
+		r.ThreadsExecTimeAvg,
+		r.ThreadsExecTimeStddev,
 	)
 }
 
 func (r *Result) toString() string {
 	return fmt.Sprintf("%s %s %d %d %d %d %d %.3f %d %.3f %d %d %.3f %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f",
-		r.sysbenchVersion,
-		r.luajitVersion,
-		r.threads,
-		r.totalRead,
-		r.totalWrite,
-		r.totalOther,
-		r.totalTx,
-		r.tps,
-		r.totalQuery,
-		r.qps,
-		r.ignoredErrors,
-		r.reconnects,
-		r.totalTime,
-		r.totalEvents,
-		r.minLatency,
-		r.avgLatency,
-		r.maxLatency,
-		r.p95thLatency,
-		r.sumLatency,
-		r.threadsEventsAvg,
-		r.threadsEventsStddev,
-		r.threadsExecTimeAvg,
-		r.threadsExecTimeStddev,
+		r.SysbenchVersion,
+		r.LuajitVersion,
+		r.Threads,
+		r.TotalRead,
+		r.TotalWrite,
+		r.TotalOther,
+		r.TotalTx,
+		r.Tps,
+		r.TotalQuery,
+		r.Qps,
+		r.IgnoredErrors,
+		r.Reconnects,
+		r.TotalTime,
+		r.TotalEvents,
+		r.MinLatency,
+		r.AvgLatency,
+		r.MaxLatency,
+		r.P95thLatency,
+		r.SumLatency,
+		r.ThreadsEventsAvg,
+		r.ThreadsEventsStddev,
+		r.ThreadsExecTimeAvg,
+		r.ThreadsExecTimeStddev,
 	)
 }
 
@@ -105,72 +105,72 @@ func parseRow(r *Result, row string) {
 	if strings.Index(row, "sysbench") != -1 {
 		str := strings.Split(row, " ")
 		s := strings.Replace(str[5], ")", "", -1)
-		r.sysbenchVersion = str[1]
-		r.luajitVersion = s
+		r.SysbenchVersion = str[1]
+		r.LuajitVersion = s
 	} else if strings.Index(row, "Number of threads") != -1 {
 		str := strings.Split(row, " ")
-		r.threads, _ = strconv.Atoi(str[3])
+		r.Threads, _ = strconv.Atoi(str[3])
 	} else if strings.Index(row, "read:") != -1 {
 		str := strings.Split(row, " ")
-		r.totalRead, _ = strconv.Atoi(str[2])
+		r.TotalRead, _ = strconv.Atoi(str[2])
 	} else if strings.Index(row, "write:") != -1 {
 		str := strings.Split(row, " ")
-		r.totalWrite, _ = strconv.Atoi(str[2])
+		r.TotalWrite, _ = strconv.Atoi(str[2])
 	} else if strings.Index(row, "other:") != -1 {
 		str := strings.Split(row, " ")
-		r.totalOther, _ = strconv.Atoi(str[2])
+		r.TotalOther, _ = strconv.Atoi(str[2])
 	} else if strings.Index(row, "total:") != -1 {
 		str := strings.Split(row, " ")
-		r.totalTx, _ = strconv.Atoi(str[2])
+		r.TotalTx, _ = strconv.Atoi(str[2])
 	} else if strings.Index(row, "transactions:") != -1 {
 		str := strings.Split(row, " ")
-		r.totalTx, _ = strconv.Atoi(str[2])
-		r.tps, _ = strconv.ParseFloat(strings.Replace(str[3], "(", "", -1), 64)
+		r.TotalTx, _ = strconv.Atoi(str[2])
+		r.Tps, _ = strconv.ParseFloat(strings.Replace(str[3], "(", "", -1), 64)
 	} else if strings.Index(row, "queries:") != -1 {
 		str := strings.Split(row, " ")
-		r.totalQuery, _ = strconv.Atoi(str[2])
-		r.qps, _ = strconv.ParseFloat(strings.Replace(str[3], "(", "", -1), 64)
+		r.TotalQuery, _ = strconv.Atoi(str[2])
+		r.Qps, _ = strconv.ParseFloat(strings.Replace(str[3], "(", "", -1), 64)
 	} else if strings.Index(row, "errors:") != -1 {
 		str := strings.Split(row, " ")
-		r.ignoredErrors, _ = strconv.Atoi(str[3])
+		r.IgnoredErrors, _ = strconv.Atoi(str[3])
 	} else if strings.Index(row, "reconnects:") != -1 {
 		str := strings.Split(row, " ")
-		r.reconnects, _ = strconv.Atoi(str[2])
+		r.Reconnects, _ = strconv.Atoi(str[2])
 	} else if strings.Index(row, "time:") != -1 {
 		str := strings.Split(row, " ")
-		r.totalTime, _ = strconv.ParseFloat(strings.Replace(str[3], "s", "", -1), 64)
+		r.TotalTime, _ = strconv.ParseFloat(strings.Replace(str[3], "s", "", -1), 64)
 	} else if strings.Index(row, "events:") != -1 {
 		str := strings.Split(row, " ")
-		r.totalEvents, _ = strconv.Atoi(str[5])
+		r.TotalEvents, _ = strconv.Atoi(str[5])
 	} else if strings.Index(row, "min:") != -1 {
 		str := strings.Split(row, " ")
-		r.minLatency, _ = strconv.ParseFloat(str[2], 64)
+		r.MinLatency, _ = strconv.ParseFloat(str[2], 64)
 	} else if strings.Index(row, "avg:") != -1 {
 		str := strings.Split(row, " ")
-		r.avgLatency, _ = strconv.ParseFloat(str[2], 64)
+		r.AvgLatency, _ = strconv.ParseFloat(str[2], 64)
 	} else if strings.Index(row, "max:") != -1 {
 		str := strings.Split(row, " ")
-		r.maxLatency, _ = strconv.ParseFloat(str[2], 64)
+		r.MaxLatency, _ = strconv.ParseFloat(str[2], 64)
 	} else if strings.Index(row, "percentile:") != -1 {
 		str := strings.Split(row, " ")
-		r.p95thLatency, _ = strconv.ParseFloat(str[3], 64)
+		r.P95thLatency, _ = strconv.ParseFloat(str[3], 64)
 	} else if strings.Index(row, "sum:") != -1 {
 		str := strings.Split(row, " ")
-		r.sumLatency, _ = strconv.ParseFloat(str[2], 64)
+		r.SumLatency, _ = strconv.ParseFloat(str[2], 64)
 	} else if strings.Index(row, "events (avg/stddev):") != -1 {
 		str := strings.Split(row, " ")
 		d := strings.Split(str[3], "/")
-		r.threadsEventsAvg, _ = strconv.ParseFloat(d[0], 64)
-		r.threadsEventsStddev, _ = strconv.ParseFloat(d[1], 64)
+		r.ThreadsEventsAvg, _ = strconv.ParseFloat(d[0], 64)
+		r.ThreadsEventsStddev, _ = strconv.ParseFloat(d[1], 64)
 	} else if strings.Index(row, "time (avg/stddev):") != -1 {
 		str := strings.Split(row, " ")
 		d := strings.Split(str[4], "/")
-		r.threadsExecTimeAvg, _ = strconv.ParseFloat(d[0], 64)
-		r.threadsExecTimeStddev, _ = strconv.ParseFloat(d[1], 64)
+		r.ThreadsExecTimeAvg, _ = strconv.ParseFloat(d[0], 64)
+		r.ThreadsExecTimeStddev, _ = strconv.ParseFloat(d[1], 64)
 	}
 }
 
-func parseFile(r *Result, f string) error {
+func ParseFile(r *Result, f string) error {
 	fp, err := os.Open(f)
 	if err != nil {
 		fmt.Println("Error: read file!")
@@ -191,13 +191,10 @@ func parseFile(r *Result, f string) error {
 }
 
 func ParseRows(r *Result, f string) {
-	var r Result
 	rows := strings.Split(f, "\n")
 	for i := 0; i < len(rows); i++ {
-		parseRow(&r, rows[i])
+		parseRow(r, rows[i])
 	}
-
-	return r
 }
 
 func main() {
@@ -208,7 +205,7 @@ func main() {
 	flag.Parse()
 
 	if filename != "" {
-		err := parseFile(&r, filename)
+		err := ParseFile(&r, filename)
 		if err != nil {
 			return
 		}
@@ -226,6 +223,7 @@ func main() {
 			parseRow(&r, rows[i])
 		}
 	}
+	fmt.Printf("%+v\n", r)
 
 	if isCSV {
 		fmt.Println(r.toCSVString())

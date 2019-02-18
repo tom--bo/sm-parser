@@ -1,6 +1,17 @@
-# sysbench-parser for MySQL benchmark
+# sysbench-mysql-tester for MySQL benchmark
 
-This parser parse output of sysbench for MySQL.
+sysbench-mysql-tester tests MySQL with sysbench and scenarios.
+
+## Requirements
+
+
+## How to use
+
+
+
+## parser
+
+parse output of sysbench for MySQL.  
 These items are extract from sysbench output.
 
 - version of sysbench

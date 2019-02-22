@@ -1,18 +1,24 @@
-# sysbench-mysql-tester for MySQL benchmark
+# sm-parser
 
-sysbench-mysql-tester tests MySQL with sysbench and scenarios.
-
-## Requirements
-
+sm-parser(Sysbench-MySQL output parser) just extract items from an output of sysbench for MySQL.
+This package assume to be used as small library, but can be used as command line tool to extract output.
 
 ## How to use
 
+```
+go run parse.go -f output.txt
+```
+
+or 
+
+```
+cat output.txt | go run parse.go
+```
 
 
-## parser
+## What items are extracted
 
-parse output of sysbench for MySQL.  
-These items are extract from sysbench output.
+sm-parser basically extract all information from output of sysbench for MySQL.  
 
 - version of sysbench
 - version of LuaJIT
@@ -26,6 +32,6 @@ These items are extract from sysbench output.
 - ThreadsEvent AVG/STDDEV
 - ThreadsExecTime AVG/STDDEV
 
-
+You can see these fields in Result struct.
 
 

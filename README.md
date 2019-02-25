@@ -3,15 +3,17 @@
 sm-parser(Sysbench-MySQL output parser) just extract items from an output of sysbench for MySQL.
 This package assume to be used as small library, but can be used as command line tool to extract output.
 
+## How to install
+
+```
+go get github.com/tom--bo/sm-parser
+```
+
 ## How to use
 
 ```
 go run parse.go -f output.txt
-```
-
-or 
-
-```
+# or
 cat output.txt | go run parse.go
 ```
 

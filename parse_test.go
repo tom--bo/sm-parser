@@ -41,7 +41,7 @@ func TestParseRows(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	ParseRows(&r, string(content))
+	ParseOutput(&r, string(content))
 
 	if diff := cmp.Diff(r, expectedSample1); diff != "" {
 		t.Errorf("Result struct differs: (-got +want)\n%s", diff)

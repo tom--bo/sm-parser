@@ -190,8 +190,8 @@ func ParseFile(r *Result, f string) error {
 	return nil
 }
 
-func ParseRows(r *Result, f string) {
-	rows := strings.Split(f, "\n")
+func ParseOutput(r *Result, s string) {
+	rows := strings.Split(s, "\n")
 	for i := 0; i < len(rows); i++ {
 		parseRow(r, rows[i])
 	}
